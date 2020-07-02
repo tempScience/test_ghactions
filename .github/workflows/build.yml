@@ -39,7 +39,7 @@ jobs:
 
     - name: Test python shell
       shell: bash
-      run: echo ::set-env name=QWE3::${python -c "print('qwe3')"}
+      run: echo ::set-env name=QWE3::$(python -c "print('qwe3')")
 
     - name: Print variables
       run: |
