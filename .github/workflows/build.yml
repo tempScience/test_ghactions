@@ -36,9 +36,9 @@ jobs:
       shell: bash
       run: echo ::set-env name=SHORT_GITHUB_REF::${GITHUB_REF#refs/*/}
 
-    - name: Test python shell
-      shell: python
-      run: echo ::set-env name=SHORT_GITHUB_REF::${GITHUB_REF#refs/*/} python -c "print('qwe')"
+    #- name: Test python shell
+    #  shell: python
+    #  run: echo ::set-env name=SHORT_GITHUB_REF::${GITHUB_REF#refs/*/} python -c "print('qwe')"
 
     - name: Print variables
       run: |
