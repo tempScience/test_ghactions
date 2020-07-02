@@ -15,6 +15,7 @@ jobs:
     env:
       QWE: qwe
       QWE2: python -c "print('qwe2')"
+      QWE4: ${GITHUB_REF#refs/*/}
       
     # The type of runner that the job will run on
     runs-on: ${{ matrix.os }}
@@ -41,9 +42,9 @@ jobs:
       shell: bash
       run: echo ::set-env name=QWE3::$(python -c "print('qwe3')")
 
-    - name: Test python shell 2
-      shell: bash
-      run: echo ::set-env name=QWE4::$(python ../../ProjectVar.py ci.app.icon.file_ext)
+    #- name: Test python shell 2
+    #  shell: bash
+    #  run: echo ::set-env name=QWE4::$(python ../../ProjectVar.py ci.app.icon.file_ext)
 
     - name: Print variables
       run: |
