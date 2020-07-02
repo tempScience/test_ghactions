@@ -12,11 +12,6 @@ jobs:
     # CI skip conditions
     if: "!contains(github.event.head_commit.message, '[ci skip]')"
 
-    env:
-      QWE: qwe
-      QWE2: python -c "print('qwe2')"
-      QWE4: ${GITHUB_REF#refs/*/}
-      
     # The type of runner that the job will run on
     runs-on: ${{ matrix.os }}
 
@@ -31,42 +26,35 @@ jobs:
           POETRY_VENV_PATH: /home/runner/.cache/pypoetry/virtualenvs
           QT_PATH: /home/runner/Qt
 
+    # Declare os-independent env variables
+    env:
+      SHORT_GITHUB_REF: ${GITHUB_REF#refs/*/}
+      DOWNLOADS_PATH: .Download
+      
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
 
-    - name: Declare os-independent env variables
-      shell: bash
-      run: echo ::set-env name=SHORT_GITHUB_REF::${GITHUB_REF#refs/*/}
+    - name: Check-out the repository
+      uses: actions/checkout@v2
 
-    - name: Test python shell
-      shell: bash
-      run: echo ::set-env name=QWE3::$(python -c "print('qwe3')")
-
-    #- name: Test python shell 2
-    #  shell: bash
-    #  run: echo ::set-env name=QWE4::$(python ../../ProjectVar.py ci.app.icon.file_ext)
+    - name: Cache dependencies
+      uses: actions/cache@v2
+      with:
+        path: |
+          ${{ matrix.POETRY_PATH }}
+          ${{ matrix.POETRY_VENV_PATH }}
+          ${{ matrix.QT_PATH }}
+          ${{ env.DOWNLOADS_PATH }}
+        key: ${{ matrix.os }}-poetry-${{ hashFiles('poetry.lock') }}
 
     - name: Print variables
       run: |
-        echo 'SHORT_GITHUB_REF:' $SHORT_GITHUB_REF
-        echo 'env.SHORT_GITHUB_REF:' ${{ env.SHORT_GITHUB_REF }}
-        echo 'RUNNER_OS:' $RUNNER_OS
-        echo 'runner.os:' ${{ runner.os }}
-        echo 'MATRIX_OS:' $MATRIX_OS
         echo 'matrix.os:' ${{ matrix.os }}
+        echo 'matrix.POETRY_PATH:' ${{ matrix.POETRY_PATH }}
         echo 'matrix.POETRY_VENV_PATH:' ${{ matrix.POETRY_VENV_PATH }}
         echo 'matrix.QT_PATH:' ${{ matrix.QT_PATH }}
-        echo 'env.QWE:' ${{ env.QWE }}
-        echo 'QWE:' $QWE
-        echo 'env.QWE2:' ${{ env.QWE2 }}
-        echo 'QWE2:' $QWE2
-        echo 'env.QWE3:' ${{ env.QWE3 }}
-        echo 'QWE3:' $QWE3
-        echo 'env.QWE4:' ${{ env.QWE4 }}
-        echo 'QWE4:' $QWE4
-
-    - name: Check-out the repository
-      uses: actions/checkout@v2
+        echo 'env.SHORT_GITHUB_REF:' ${{ env.SHORT_GITHUB_REF }}
+        echo 'env.DOWNLOADS_PATH:' ${{ env.DOWNLOADS_PATH }}
 
     - name: Set up the Python environment
       uses: actions/setup-python@v2
@@ -76,14 +64,6 @@ jobs:
     - name: Set up Poetry (Python packages manager)
       uses: Gr1N/setup-poetry@v2
 
-    - name: Cache dependencies
-      uses: actions/cache@v2
-      with:
-        path: |
-          ${{ matrix.POETRY_PATH }}
-          ${{ matrix.POETRY_VENV_PATH }}
-          ${{ matrix.QT_PATH }}
-          .Download
-        key: ${{ matrix.os }}-poetry-${{ hashFiles('poetry.lock') }}
+
 
 
