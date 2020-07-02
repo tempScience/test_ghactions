@@ -14,6 +14,7 @@ jobs:
 
     env:
       QWE: qwe
+      QWE2: python -c "print('qwe2')"
       
     # The type of runner that the job will run on
     runs-on: ${{ matrix.os }}
@@ -52,6 +53,8 @@ jobs:
         echo 'matrix.QT_PATH:' ${{ matrix.QT_PATH }}
         echo 'env.QWE:' ${{ env.QWE }}
         echo 'QWE:' $QWE
+        echo 'env.QWE2:' ${{ env.QWE2 }}
+        echo 'QWE2:' $QWE2
 
     - name: Check-out the repository
       uses: actions/checkout@v2
