@@ -41,6 +41,10 @@ jobs:
       shell: bash
       run: echo ::set-env name=QWE3::$(python -c "print('qwe3')")
 
+    - name: Test python shell 2
+      shell: bash
+      run: echo ::set-env name=QWE4::$(python Tools/Scripts/ProjectVar.py ci.app.icon.file_ext)
+
     - name: Print variables
       run: |
         echo 'SHORT_GITHUB_REF:' $SHORT_GITHUB_REF
@@ -57,6 +61,8 @@ jobs:
         echo 'QWE2:' $QWE2
         echo 'env.QWE3:' ${{ env.QWE3 }}
         echo 'QWE3:' $QWE3
+        echo 'env.QWE4:' ${{ env.QWE4 }}
+        echo 'QWE4:' $QWE4
 
     - name: Check-out the repository
       uses: actions/checkout@v2
