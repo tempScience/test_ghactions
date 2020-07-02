@@ -43,7 +43,7 @@ jobs:
 
     - name: Test python shell 2
       shell: bash
-      run: echo ::set-env name=QWE4::$(python Tools/Scripts/ProjectVar.py ci.app.icon.file_ext)
+      run: echo ::set-env name=QWE4::$(python ProjectVar.py ci.app.icon.file_ext)
 
     - name: Print variables
       run: |
